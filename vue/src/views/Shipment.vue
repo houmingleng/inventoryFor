@@ -90,32 +90,39 @@ export default {
     // console.log(this.$route.params)
     return {
       form: {},
-      storages:{},
+      storages:{
+        name:"",
+        number:0,
+        id:"",
+        address:""
+      },
 
     }
   },
   created() {
-    let str = sessionStorage.getItem("item")
-    if(str){
-      this.storages = JSON.parse(str);
+    this.storages.name = this.$route.params.name
+    this.storages.number = this.$route.params.number
+    this.storages.id = this.$route.params.id
+    this.storages.address = this.$route.params.address
+    // let str = sessionStorage.getItem("item")
+    // if(str){
+    //   this.storages = JSON.parse(str);
 
-    }
+    // }
   },
   methods:{
     handleShip() {
 
       this.form.name = this.storages.name;
-      if(this.storages.number >= this.form.number &&this.form.number>=0 ){
+      if(this.storages.number - this.form.number >=0 && this.form.number>=0 ){
 
           request.post("/api/shipment", this.form).then(res=>{
 
             this.storages.number -=  this.form.number;
-            console.log(this.storages.number)
-            sessionStorage.clear();
-            sessionStorage.setItem("item",JSON.stringify(this.storages));
-
-            alert("succuess")
-            this.$router.push("/")
+            request.put("/api/items", this.storages).then(res=>{
+              this.$router.push("/")
+        })
+            
           })
       }else{
         alert("amount not allowed")

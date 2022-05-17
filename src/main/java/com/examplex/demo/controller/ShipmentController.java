@@ -22,9 +22,7 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 
-@CrossOrigin(origins = "http://localhost:9876")
 @RestController
-@Component
 @RequestMapping("/api")
 public class ShipmentController {
     @Autowired

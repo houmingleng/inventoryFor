@@ -91,18 +91,20 @@ export default {
       }
 
   },
-  created() {
-    load()
-        let str = sessionStorage.getItem("item")
-        if(str){
-          this.storages = JSON.parse(str);
-        request.put("/api/items", this.storages).then(res=>{
-          console.log(res)
-          this.storage = {}
-        })
-      }
-      sessionStorage.clear()
+    created() {
 
+      //   let str = sessionStorage.getItem("item")
+      //   if(str){
+      //     this.storages = JSON.parse(str);
+      //   request.put("/api/items", this.storages).then(res=>{
+      //     console.log(res)
+      //     this.storage = {}
+      //   })
+      // }
+      // sessionStorage.clear()
+      this.load()
+//我是想 item传给ship 然后 ship的时候取item的数字 和名字然后ship走的时候改了item的数字 然后再返回来然后再这里再put更新到item表
+//想知道有什么别的方法没有 自学 还没有学到单传的几个element  ship是干嘛但?ni
     },
   methods:{
     load(){
@@ -123,11 +125,22 @@ export default {
 
     },
     handleShip(row){
-      sessionStorage.setItem("item",JSON.stringify(row));
+      // sessionStorage.setItem("item",JSON.stringify(row));
       // var arr = JSON.stringify((row));
       // this.$router.push("/shipment"+ encodeURIComponent(arr))
-      this.$router.push("/shipment")
+      this.$router.push({
+        name: 'Shipment',
+        params: {
+          id: row.id,
+          address: row.address,
+          name: row.name,
+          number: row.number
+        }
+      })
+      // this.$router.push("/shipment")
     }
+
+
     ,
     saveItem(){
 
@@ -135,17 +148,21 @@ export default {
         console.log(this.form)
         request.put("/api/items", this.form).then(res=>{
           console.log(res)
+          this.load();
+          this.dialogFormVisible = false
+
         })
 
       }else{
         request.post("/api/items", this.form).then(res=>{
           console.log(res)
+          this.load();
+          this.dialogFormVisible = false
 
         })
 
       }
-      this.dialogFormVisible = false
-      this.load();
+      
 
     },
     handleEdit (row) {
