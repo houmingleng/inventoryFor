@@ -103,8 +103,6 @@ export default {
       // }
       // sessionStorage.clear()
       this.load()
-//我是想 item传给ship 然后 ship的时候取item的数字 和名字然后ship走的时候改了item的数字 然后再返回来然后再这里再put更新到item表
-//想知道有什么别的方法没有 自学 还没有学到单传的几个element  ship是干嘛但?ni
     },
   methods:{
     load(){
